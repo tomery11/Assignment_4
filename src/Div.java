@@ -121,7 +121,7 @@ public class Div extends BinaryExpression implements Expression {
             tempRightExp = new Num(assignment.get(this.getVariables().get(0)));
         }
 
-        BinaryExpression toCalc =  new Div(tempLeftExp, tempRightExp);
+        BinaryExpression toCalc = new Div(tempLeftExp, tempRightExp);
         double ans = toCalc.evaluate();
         return ans;
 
@@ -139,7 +139,7 @@ public class Div extends BinaryExpression implements Expression {
         if (super.getLeftExpression() instanceof Var || super.getRightExpression() instanceof Var) {
             throw new RuntimeException("Cannot use map without Var");
         }
-        if (super.getRightExpression().evaluate()==0){
+        if (super.getRightExpression().evaluate() == 0) {
             throw new RuntimeException("you cannot divide by 0");
         }
         return super.getLeftExpression().evaluate() / super.getRightExpression().evaluate();
@@ -188,6 +188,7 @@ public class Div extends BinaryExpression implements Expression {
 
     /**
      * setter for left expression.
+     *
      * @param leftExp .
      */
     public void setLeftExpression(Expression leftExp) {
@@ -196,10 +197,28 @@ public class Div extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param rightExp .
      */
     public void setRightExpression(Expression rightExp) {
         super.setRightExpression(rightExp);
     }
 
+
+    /**
+     * Returns the expression tree resulting from differentiating
+     * the current expression relative to variable `var`.
+     *
+     * @param var .
+     * @return Expression .
+     */
+    @Override
+    public Expression differentiate(String var) {
+        Expression firstTerm = new Minus(new Mul(getLeftExpression().differentiate(var),
+                getRightExpression()), new Mul(getLeftExpression(),
+                getRightExpression().differentiate(var)));
+
+
+        return new Div(firstTerm, new Pow(getRightExpression(), 2));
+    }
 }

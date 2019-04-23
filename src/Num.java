@@ -93,7 +93,7 @@ public class Num implements Expression{
      */
     @Override
     public Expression differentiate(String var) {
-        return null;
+        return new Num(0);
     }
 
     /**

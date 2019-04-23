@@ -119,7 +119,7 @@ public class Cos extends UnaryExpression implements Expression {
      */
     @Override
     public Expression differentiate(String var) {
-        return null;
+        return new Neg(new Mul(new Sin(this),this.differentiate(var)));
     }
 
     /**

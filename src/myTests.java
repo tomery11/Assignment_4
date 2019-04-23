@@ -169,12 +169,50 @@ public class myTests {
         }
 
         System.out.println();
-        System.out.println("complex expression");
-        Expression e25 = new Sin(new Mul(new Plus(new Num(2),new Mul(new Num(2), new Var("x"))),
+        System.out.println("test 25 complex expression");
+        Expression e25 = new Sin(new Mul(new Plus(new Num(2), new Mul(new Num(2), new Var("x"))),
                 new Num(5)));
         System.out.println(e25.toString());
 
+        System.out.println();
+        System.out.println("test 26 const");
+        Expression e26 = new Mul("e", 2);
+        System.out.println(e26.toString());
+        System.out.println(e26.evaluate());
 
+
+        System.out.println();
+        System.out.println("test 27 const");
+        Expression e27 = new Mul(4, "Pi");
+        System.out.println(e27.toString());
+        System.out.println(e27.evaluate());
+
+        System.out.println();
+        System.out.println("test 28 derivative pow");
+        Expression e28 = new Pow("x", 4);
+        System.out.println(e28.toString());
+        Expression e29 = e28.differentiate("x");
+        System.out.println(e29.toString());
+
+        System.out.println();
+        System.out.println("test 29 dervative");
+        Expression e30 = new Div("x", 4);
+        System.out.println(e30.toString());
+        Expression e31 = e30.differentiate("x");
+        System.out.println(e31.toString());
+
+
+        System.out.println();
+        System.out.println("simplify mul test 30");
+        Expression e32 = new Mul(1, "x");
+        System.out.println(e32.toString());
+
+        System.out.println(e32.simplify().toString());
+/*
+        Expression e33 = new Mul(3, 0);
+        System.out.println(e33.toString());
+        System.out.println(e33.simplify().toString());
+*/
         //System.out.println(new Sin("Pi").evaluate());
 
 /*

@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.Map;
 
-public class Mul extends BinaryExpression implements Expression{
+public class Mul extends BinaryExpression implements Expression {
 
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
@@ -122,7 +122,7 @@ public class Mul extends BinaryExpression implements Expression{
             tempRightExp = new Num(assignment.get(this.getVariables().get(0)));
         }
 
-        BinaryExpression toCalc =  new Mul(tempLeftExp, tempRightExp);
+        BinaryExpression toCalc = new Mul(tempLeftExp, tempRightExp);
         double ans = toCalc.evaluate();
         return ans;
 
@@ -186,6 +186,7 @@ public class Mul extends BinaryExpression implements Expression{
 
     /**
      * setter for left expression.
+     *
      * @param leftExp .
      */
     public void setLeftExpression(Expression leftExp) {
@@ -194,10 +195,59 @@ public class Mul extends BinaryExpression implements Expression{
 
     /**
      * Plus Constructor.
+     *
      * @param rightExp .
      */
     public void setRightExpression(Expression rightExp) {
         super.setRightExpression(rightExp);
+    }
+
+    /**
+     * Returns the expression tree resulting from differentiating
+     * the current expression relative to variable `var`.
+     *
+     * @param var .
+     * @return Expression .
+     */
+    @Override
+    public Expression differentiate(String var) {
+        return new Plus(new Mul(getLeftExpression().differentiate(var), getRightExpression()),
+                new Mul(getLeftExpression(), getRightExpression().differentiate(var)));
+    }
+
+    // Returned a simplified version of the current expression.
+    public Expression simplify(){
+        try {
+            if (1 == getLeftExpression().evaluate() && 1 != getRightExpression().evaluate()){
+                return getRightExpression();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if( 1== getRightExpression().evaluate() && 1!= getLeftExpression().evaluate()){
+                return getLeftExpression();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (0 == getLeftExpression().evaluate() && 1 != getRightExpression().evaluate()){
+                return (Expression) new Num(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if( 0== getRightExpression().evaluate() && 1!= getLeftExpression().evaluate()){
+                return (Expression) new Num(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
 }

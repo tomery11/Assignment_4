@@ -4,22 +4,25 @@ import java.util.Map;
 
 /**
  * Plus class.
+ *
  * @author Tomer Yona
  * @date 22.4.19
  */
 public class Plus extends BinaryExpression implements Expression {
     /**
      * Plus Constructor.
-     * @param leftExp .
+     *
+     * @param leftExp  .
      * @param rightExp .
      */
     public Plus(Expression leftExp, Expression rightExp) {
-        super(leftExp,rightExp);
+        super(leftExp, rightExp);
 
     }
 
     /**
      * Plus Constructor.
+     *
      * @param var .
      * @param num .
      */
@@ -30,6 +33,7 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param num .
      * @param var .
      */
@@ -40,6 +44,7 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param num1 .
      * @param num2 .
      */
@@ -50,6 +55,7 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param var1 .
      * @param var2 .
      */
@@ -59,6 +65,7 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param var1 .
      * @param exp2 .
      */
@@ -69,15 +76,17 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param exp1 .
      * @param var2 .
      */
-    public Plus(Expression exp1, String var2 ) {
+    public Plus(Expression exp1, String var2) {
         super(exp1, var2);
     }
 
     /**
      * Plus Constructor.
+     *
      * @param num1 .
      * @param exp2 .
      */
@@ -88,10 +97,11 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param exp1 .
      * @param num2 .
      */
-    public Plus(Expression exp1, double num2  ) {
+    public Plus(Expression exp1, double num2) {
         super(exp1, num2);
     }
 
@@ -120,7 +130,7 @@ public class Plus extends BinaryExpression implements Expression {
             tempRightExp = new Num(assignment.get(this.getVariables().get(0)));
         }
 
-        BinaryExpression toCalc =  new Plus(tempLeftExp, tempRightExp);
+        BinaryExpression toCalc = new Plus(tempLeftExp, tempRightExp);
         double ans = toCalc.evaluate();
         return ans;
 
@@ -174,7 +184,7 @@ public class Plus extends BinaryExpression implements Expression {
     @Override
     public Expression assign(String var, Expression expression) {
 
-       return super.assign(var, expression);
+        return super.assign(var, expression);
     }
 
     @Override
@@ -184,6 +194,7 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * setter for left expression.
+     *
      * @param leftExp .
      */
     public void setLeftExpression(Expression leftExp) {
@@ -192,6 +203,7 @@ public class Plus extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param rightExp .
      */
     public void setRightExpression(Expression rightExp) {
@@ -199,6 +211,18 @@ public class Plus extends BinaryExpression implements Expression {
     }
 
 
+    /**
+     * Returns the expression tree resulting from differentiating
+     * the current expression relative to variable `var`.
+     *
+     * @param var .
+     * @return Expression .
+     */
+    @Override
+    public Expression differentiate(String var) {
+        return new Plus(getLeftExpression().differentiate(var), getRightExpression().differentiate(var));
+
+    }
 
 
 }

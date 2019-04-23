@@ -204,6 +204,20 @@ public class Log extends BinaryExpression implements Expression {
         super.setRightExpression(rightExp);
     }
 
+    /**
+     * Returns the expression tree resulting from differentiating
+     * the current expression relative to variable `var`.
+     *
+     * @param var .
+     * @return Expression.
+     */
+
+    public Expression differentiate(String var) {
+        Expression firstTerm = new Div(1,new Mul(getRightExpression(),new Log("e",getLeftExpression())));
+        Expression secondTerm =  getRightExpression().differentiate(var);
+        return new Mul(firstTerm,secondTerm);
+
+    }
 
 
 

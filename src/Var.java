@@ -101,7 +101,10 @@ public class Var implements Expression {
      */
     @Override
     public Expression differentiate(String var) {
-        return null;
+        if (this.variable.equals(var)){
+            return new Num(1);
+        }
+        return this;
     }
 
     /**

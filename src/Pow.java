@@ -201,6 +201,24 @@ public class Pow extends BinaryExpression implements Expression {
     }
 
 
+    /**
+     * Returns the expression tree resulting from differentiating
+     * the current expression relative to variable `var`.
+     * @param var .
+     * @return Expression .
+     */
+    @Override
+    public Expression differentiate(String var){
+
+        Expression firstExp = new Pow(getLeftExpression(),getRightExpression());
+        Expression twoPointOneExp = new Mul(getRightExpression().differentiate(var),
+                new Log("e",getLeftExpression()));
+        Expression twoPointTwoEsp = new Div(new Mul(this.getRightExpression(),
+                this.getLeftExpression().differentiate(var)),this.getLeftExpression());
+        Expression secondExp = new Plus(twoPointOneExp, twoPointTwoEsp);
+        return new Mul(firstExp,secondExp);
+
+    }
 
 
 }

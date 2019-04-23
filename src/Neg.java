@@ -119,7 +119,7 @@ public class Neg extends UnaryExpression implements Expression {
      */
     @Override
     public Expression differentiate(String var) {
-        return null;
+        return new Neg(this.getExp().differentiate(var));
     }
 
     /**

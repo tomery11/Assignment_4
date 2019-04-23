@@ -133,10 +133,8 @@ public class BinaryExpression extends BaseExpression {
         this.rightExpression = new Var(var2);
         this.varList = new ArrayList<String>();
         this.assignment = new TreeMap<String, Double>();
-        varList.add(var2);
-        for (String v : exp1.getVariables()) {
-            varList.add(v);
-        }
+
+
 
     }
 
@@ -151,9 +149,7 @@ public class BinaryExpression extends BaseExpression {
         this.rightExpression = exp2;
         this.varList = new ArrayList<String>();
         this.assignment = new TreeMap<String, Double>();
-        for (String v : exp2.getVariables()) {
-            varList.add(v);
-        }
+
 
     }
 
@@ -168,9 +164,7 @@ public class BinaryExpression extends BaseExpression {
         this.rightExpression = new Num(num2);
         this.varList = new ArrayList<String>();
         this.assignment = new TreeMap<String, Double>();
-        for (String v : exp1.getVariables()) {
-            varList.add(v);
-        }
+
 
     }
 
@@ -287,17 +281,6 @@ public class BinaryExpression extends BaseExpression {
         }
     }
 
-    /**
-     * Returns the expression tree resulting from differentiating
-     * the current expression relative to variable `var`.
-     *
-     * @param var .
-     * @return
-     */
-
-    public Expression differentiate(String var) {
-        return null;
-    }
 
     /**
      * Returned a simplified version of the current expression.

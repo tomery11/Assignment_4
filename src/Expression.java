@@ -67,7 +67,7 @@ public interface Expression {
      * Returns the expression tree resulting from differentiating
      * the current expression relative to variable `var`.
      * @param var .
-     * @return
+     * @return Expression .
      */
     Expression differentiate(String var);
 

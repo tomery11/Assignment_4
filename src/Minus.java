@@ -207,4 +207,16 @@ public class Minus extends BinaryExpression implements Expression{
         super.setRightExpression(rightExp);
     }
 
+
+    /**
+     * Returns the expression tree resulting from differentiating
+     * the current expression relative to variable `var`.
+     * @param var .
+     * @return Expression .
+     */
+    @Override
+    public Expression differentiate(String var){
+        return new Minus(getLeftExpression().differentiate(var), getRightExpression().differentiate(var));
+    }
+
 }
