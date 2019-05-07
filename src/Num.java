@@ -4,19 +4,20 @@ import java.util.Map;
 /**
  * This is a class that describes a number.
  *
- * @author  Tomer Yona
+ * @author Tomer Yona
  * @version 1.0
- * @since   2019-04-10
+ * @since 2019-04-10
  */
-public class Num implements Expression{
+public class Num implements Expression {
 
     private double number;
 
     /**
      * constructor for Num.
+     *
      * @param n .
      */
-    public Num(double n){
+    public Num(double n) {
         this.number = n;
     }
 
@@ -28,11 +29,11 @@ public class Num implements Expression{
      *
      * @param assignment .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
-        return 0;
+        return this.evaluate();
     }
 
     /**
@@ -50,7 +51,7 @@ public class Num implements Expression{
     /**
      * Returns a list of the variables in the expression.
      *
-     * @return
+     * @return List .
      */
     @Override
     public List<String> getVariables() {
@@ -59,9 +60,10 @@ public class Num implements Expression{
 
     /**
      * Returns a nice string representation of the expression.
+     *
      * @return String
      */
-    public String toString(){
+    public String toString() {
         String str = Double.toString(this.number);
         return str;
     }
@@ -77,9 +79,9 @@ public class Num implements Expression{
      */
     @Override
     public Expression assign(String var, Expression expression) {
-        if(this.toString().equals(var)){
+        if (this.toString().equals(var)) {
             return expression;
-        }else{
+        } else {
             return this;
         }
     }
@@ -89,7 +91,7 @@ public class Num implements Expression{
      * the current expression relative to variable `var`.
      *
      * @param var .
-     * @return
+     * @return Expression .
      */
     @Override
     public Expression differentiate(String var) {
@@ -99,10 +101,10 @@ public class Num implements Expression{
     /**
      * Returned a simplified version of the current expression.
      *
-     * @return
+     * @return Expression.
      */
     @Override
     public Expression simplify() {
-        return null;
+        return this;
     }
 }

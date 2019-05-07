@@ -1,5 +1,12 @@
 import java.util.Map;
 
+/**
+ * This is a class that describes a Negative Operator and implements expression.
+ *
+ * @author Tomer Yona
+ * @version 1.0
+ * @since 2019-04-10
+ */
 public class Neg extends UnaryExpression implements Expression {
     /**
      * UnaryExpression constructor.
@@ -54,10 +61,13 @@ public class Neg extends UnaryExpression implements Expression {
      *
      * @param assignment .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
+        double toCalc = getExpression().evaluate(assignment);
+        return -1 * (toCalc);
+        /*
         Expression tempExp = this.getExpression();
 
 
@@ -67,7 +77,7 @@ public class Neg extends UnaryExpression implements Expression {
 
         UnaryExpression toCalc =  new Neg(tempExp);
         double ans = toCalc.evaluate();
-        return ans;
+        return ans;*/
     }
 
     /**
@@ -79,11 +89,11 @@ public class Neg extends UnaryExpression implements Expression {
      */
     @Override
     public double evaluate() throws Exception {
-        if (super.getExpression() instanceof Var ) {
+        if (super.getExpression() instanceof Var) {
             throw new RuntimeException("Cannot use map without Var");
         }
         double toCalc = super.getExpression().evaluate();
-        return toCalc*(-1);
+        return toCalc * (-1);
     }
 
     /**
@@ -97,17 +107,21 @@ public class Neg extends UnaryExpression implements Expression {
      */
     @Override
     public Expression assign(String var, Expression expression) {
-        return super.assign(var,expression);
+        return super.assign(var, expression);
     }
 
-
+    /**
+     * auxilary function for assign.
+     * @param assign .
+     * @return Expression.
+     */
     private Expression assignExpression(Expression assign) {
         return new Neg(assign);
     }
 
     @Override
     public String toString() {
-        return "-("+super.getExpression()+")";
+        return "(-" + super.getExpression() + ")";
     }
 
     /**
@@ -115,7 +129,7 @@ public class Neg extends UnaryExpression implements Expression {
      * the current expression relative to variable `var`.
      *
      * @param var .
-     * @return
+     * @return Expression.
      */
     @Override
     public Expression differentiate(String var) {
@@ -125,10 +139,20 @@ public class Neg extends UnaryExpression implements Expression {
     /**
      * Returned a simplified version of the current expression.
      *
-     * @return
+     * @return Expression .
      */
     @Override
     public Expression simplify() {
-        return null;
+
+        Expression simplfied = this.getExp().simplify();
+        if (simplfied.getVariables().isEmpty()) {
+            try {
+                return new Num(-1 * simplfied.evaluate());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return new Neg(simplfied);
+
     }
 }

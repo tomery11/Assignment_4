@@ -3,10 +3,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Plus class.
+ * Plus Operator class.
  *
  * @author Tomer Yona
- * @date 22.4.19
+ * @since 10.4.19
  */
 public class Plus extends BinaryExpression implements Expression {
     /**
@@ -113,33 +113,19 @@ public class Plus extends BinaryExpression implements Expression {
      *
      * @param assignment .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
-        Expression tempLeftExp = this.getLeftExpression();
-        Expression tempRightExp = this.getRightExpression();
-
-
-        if (this.getLeftExpression() instanceof Var) {
-            tempLeftExp = new Num(assignment.get(this.getVariables().get(0)));
-            if (this.getRightExpression() instanceof Var) {
-                tempRightExp = new Num(assignment.get(this.getVariables().get(1)));
-            }
-        } else if (this.getRightExpression() instanceof Var) {
-            tempRightExp = new Num(assignment.get(this.getVariables().get(0)));
-        }
-
-        BinaryExpression toCalc = new Plus(tempLeftExp, tempRightExp);
-        double ans = toCalc.evaluate();
-        return ans;
+        double left = getLeftExpression().evaluate(assignment);
+        double right = getRightExpression().evaluate(assignment);
+        return left + right;
 
     }
 
     /**
      * A convenience method. Like the `evaluate(assignment)` method above,
      * but uses an empty assignment.
-     *
      * @return double
      * @throws Exception .
      */
@@ -155,7 +141,7 @@ public class Plus extends BinaryExpression implements Expression {
     /**
      * Returns a list of the variables in the expression.
      *
-     * @return
+     * @return List .
      */
     @Override
     public List<String> getVariables() {
@@ -165,7 +151,7 @@ public class Plus extends BinaryExpression implements Expression {
     /**
      * Returns a nice string representation of the expression.
      *
-     * @return String
+     * @return String .
      */
     public String toString() {
         String str = "(" + super.getLeftExpression() + " + " + super.getRightExpression() + ")";
@@ -224,5 +210,31 @@ public class Plus extends BinaryExpression implements Expression {
 
     }
 
+    @Override
+    public Expression simplify() {
+        Expression leftSimple = getLeftExpression().simplify();
+        Expression rightSimple = getRightExpression().simplify();
+        try {
+            if (leftSimple instanceof Num) {
+                if (0 == leftSimple.evaluate(super.getAssignment())) {
+                    return rightSimple;
+                }
+            }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (rightSimple instanceof Num) {
+                if (0 == rightSimple.evaluate(super.getAssignment())) {
+                    return leftSimple;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Plus(leftSimple, rightSimple);
+    }
 }

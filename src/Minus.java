@@ -2,104 +2,109 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is a class that describes a Plus and implements expression.
+ * This is a class that describes a Minus Operator and implements expression.
  *
- * @author  Tomer Yona
+ * @author Tomer Yona
  * @version 1.0
- * @since   2019-04-10
+ * @since 2019-04-10
  */
-public class Minus extends BinaryExpression implements Expression{
+public class Minus extends BinaryExpression implements Expression {
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param leftExp
-     * @param rightExp
+     * @param leftExp  .
+     * @param rightExp .
      */
     public Minus(Expression leftExp, Expression rightExp) {
         super(leftExp, rightExp);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param var
-     * @param num
+     * @param var .
+     * @param num .
      */
     public Minus(String var, double num) {
         super(var, num);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param num
-     * @param var
+     * @param num .
+     * @param var .
      */
     public Minus(double num, String var) {
         super(num, var);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param num1
-     * @param num2
+     * @param num1 .
+     * @param num2 .
      */
     public Minus(double num1, double num2) {
         super(num1, num2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param var1
-     * @param var2
+     * @param var1 .
+     * @param var2 .
      */
     public Minus(String var1, String var2) {
         super(var1, var2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param var1
-     * @param exp2
+     * @param var1 .
+     * @param exp2 .
      */
     public Minus(String var1, Expression exp2) {
         super(var1, exp2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param exp1
-     * @param var2
+     * @param exp1 .
+     * @param var2 .
      */
     public Minus(Expression exp1, String var2) {
         super(exp1, var2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param num1
-     * @param exp2
+     * @param num1 .
+     * @param exp2 .
      */
     public Minus(double num1, Expression exp2) {
         super(num1, exp2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Minus we also update the variable list of expression.
      *
-     * @param exp1
-     * @param num2
+     * @param exp1 .
+     * @param num2 .
      */
     public Minus(Expression exp1, double num2) {
         super(exp1, num2);
     }
 
+    /**
+     * constructor of Minus we also update the variable list of expression.
+     *
+     * @param expression .
+     */
     public Minus(Expression expression) {
         super(expression);
     }
@@ -111,27 +116,15 @@ public class Minus extends BinaryExpression implements Expression{
      * is thrown.
      *
      * @param assignment .
-     * @return double
-     * @throws Exception
+     * @return double .
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
-        Expression tempLeftExp = this.getLeftExpression();
-        Expression tempRightExp = this.getRightExpression();
+        double left = getLeftExpression().evaluate(assignment);
+        double right = getRightExpression().evaluate(assignment);
 
-
-        if (this.getLeftExpression() instanceof Var) {
-            tempLeftExp = new Num(assignment.get(this.getVariables().get(0)));
-            if (this.getRightExpression() instanceof Var) {
-                tempRightExp = new Num(assignment.get(this.getVariables().get(1)));
-            }
-        } else if (this.getRightExpression() instanceof Var) {
-            tempRightExp = new Num(assignment.get(this.getVariables().get(0)));
-        }
-
-        BinaryExpression toCalc =  new Minus(tempLeftExp, tempRightExp);
-        double ans = toCalc.evaluate();
-        return ans;
+        return left - right;
 
     }
 
@@ -139,7 +132,7 @@ public class Minus extends BinaryExpression implements Expression{
      * A convenience method. Like the `evaluate(assignment)` method above,
      * but uses an empty assignment.
      *
-     * @return double
+     * @return double /
      * @throws Exception .
      */
     @Override
@@ -154,7 +147,7 @@ public class Minus extends BinaryExpression implements Expression{
     /**
      * Returns a list of the variables in the expression.
      *
-     * @return
+     * @return List .
      */
     @Override
     public List<String> getVariables() {
@@ -178,7 +171,7 @@ public class Minus extends BinaryExpression implements Expression{
      *
      * @param var        .
      * @param expression .
-     * @return Expression
+     * @return Expression .
      */
     @Override
     public Expression assign(String var, Expression expression) {
@@ -193,6 +186,7 @@ public class Minus extends BinaryExpression implements Expression{
 
     /**
      * setter for left expression.
+     *
      * @param leftExp .
      */
     public void setLeftExpression(Expression leftExp) {
@@ -201,6 +195,7 @@ public class Minus extends BinaryExpression implements Expression{
 
     /**
      * Plus Constructor.
+     *
      * @param rightExp .
      */
     public void setRightExpression(Expression rightExp) {
@@ -209,14 +204,56 @@ public class Minus extends BinaryExpression implements Expression{
 
 
     /**
-     * Returns the expression tree resulting from differentiating
+     * Returns the expression tree resulting from differentiating .
      * the current expression relative to variable `var`.
+     *
      * @param var .
      * @return Expression .
      */
     @Override
-    public Expression differentiate(String var){
+    public Expression differentiate(String var) {
         return new Minus(getLeftExpression().differentiate(var), getRightExpression().differentiate(var));
     }
 
+
+    @Override
+    public Expression simplify() {
+
+        Expression leftSimple = getLeftExpression().simplify();
+        Expression rightSimple = getRightExpression().simplify();
+
+        //x-0=x
+        try {
+            if (rightSimple instanceof Num) {
+                if (0 == rightSimple.evaluate(super.getAssignment())) {
+                    return leftSimple;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //0-x =-x
+        try {
+            if (leftSimple instanceof Num) {
+                if (0 == leftSimple.evaluate(super.getAssignment())) {
+                    return new Neg(rightSimple);
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //x-x=0
+        try {
+            if (leftSimple.toString().equals(rightSimple.toString())) {
+                return new Num(0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Minus(leftSimple, rightSimple);
+    }
 }

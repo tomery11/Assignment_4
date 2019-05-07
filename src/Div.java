@@ -1,22 +1,27 @@
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Divider Operator Class.
+ *
+ * @author Tomer Yona
+ */
 public class Div extends BinaryExpression implements Expression {
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param leftExp
-     * @param rightExp
+     * @param leftExp  .
+     * @param rightExp .
      */
     public Div(Expression leftExp, Expression rightExp) {
         super(leftExp, rightExp);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param var
-     * @param num
+     * @param var .
+     * @param num .
      */
     public Div(String var, double num) {
         super(var, num);
@@ -25,73 +30,78 @@ public class Div extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param num
-     * @param var
+     * @param num .
+     * @param var .
      */
     public Div(double num, String var) {
         super(num, var);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param num1
-     * @param num2
+     * @param num1 .
+     * @param num2 .
      */
     public Div(double num1, double num2) {
         super(num1, num2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param var1
-     * @param var2
+     * @param var1 .
+     * @param var2 .
      */
     public Div(String var1, String var2) {
         super(var1, var2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param var1
-     * @param exp2
+     * @param var1 .
+     * @param exp2 .
      */
     public Div(String var1, Expression exp2) {
         super(var1, exp2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param exp1
-     * @param var2
+     * @param exp1 .
+     * @param var2 .
      */
     public Div(Expression exp1, String var2) {
         super(exp1, var2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param num1
-     * @param exp2
+     * @param num1 .
+     * @param exp2 .
      */
     public Div(double num1, Expression exp2) {
         super(num1, exp2);
     }
 
     /**
-     * constructor of BinaryExpression we also update the variable list of expression.
+     * constructor of Div we also update the variable list of expression.
      *
-     * @param exp1
-     * @param num2
+     * @param exp1 .
+     * @param num2 .
      */
     public Div(Expression exp1, double num2) {
         super(exp1, num2);
     }
 
+    /**
+     * contructor of Div Expression .
+     *
+     * @param expression .
+     */
     public Div(Expression expression) {
         super(expression);
     }
@@ -104,10 +114,18 @@ public class Div extends BinaryExpression implements Expression {
      *
      * @param assignment .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
+        double left = getLeftExpression().evaluate(assignment);
+        double right = getRightExpression().evaluate(assignment);
+        if (right == 0) {
+            throw new RuntimeException("cannot divide by zero");
+        }
+        return left / right;
+
+        /*
         Expression tempLeftExp = this.getLeftExpression();
         Expression tempRightExp = this.getRightExpression();
 
@@ -123,7 +141,7 @@ public class Div extends BinaryExpression implements Expression {
 
         BinaryExpression toCalc = new Div(tempLeftExp, tempRightExp);
         double ans = toCalc.evaluate();
-        return ans;
+        return ans;*/
 
     }
 
@@ -131,7 +149,7 @@ public class Div extends BinaryExpression implements Expression {
      * A convenience method. Like the `evaluate(assignment)` method above,
      * but uses an empty assignment.
      *
-     * @return double
+     * @return double .
      * @throws Exception .
      */
     @Override
@@ -149,7 +167,7 @@ public class Div extends BinaryExpression implements Expression {
     /**
      * Returns a list of the variables in the expression.
      *
-     * @return
+     * @return List .
      */
     @Override
     public List<String> getVariables() {
@@ -159,7 +177,7 @@ public class Div extends BinaryExpression implements Expression {
     /**
      * Returns a nice string representation of the expression.
      *
-     * @return String
+     * @return String .
      */
     public String toString() {
         String str = "(" + super.getLeftExpression() + " / " + super.getRightExpression() + ")";
@@ -214,11 +232,64 @@ public class Div extends BinaryExpression implements Expression {
      */
     @Override
     public Expression differentiate(String var) {
-        Expression firstTerm = new Minus(new Mul(getLeftExpression().differentiate(var),
-                getRightExpression()), new Mul(getLeftExpression(),
+        Expression firstTerm = new Minus(new Mult(getLeftExpression().differentiate(var),
+                getRightExpression()), new Mult(getLeftExpression(),
                 getRightExpression().differentiate(var)));
 
 
         return new Div(firstTerm, new Pow(getRightExpression(), 2));
+    }
+
+    @Override
+    public Expression simplify() {
+
+        Expression leftSimple = getLeftExpression().simplify();
+        Expression rightSimple = getRightExpression().simplify();
+        try {
+
+
+            if (leftSimple.toString().equals(rightSimple.toString())) {
+                return new Num(1);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //case where x/x =1
+        try {
+
+            if (leftSimple.toString().equals(rightSimple.toString())) {
+                return new Num(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //case where x/1 =x
+        try {
+            if (rightSimple instanceof Num) {
+                if (1 == rightSimple.evaluate()) {
+                    return leftSimple;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (leftSimple instanceof Num) {
+                if (0 == leftSimple.evaluate()) {
+                    return new Num(0);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return new Div(leftSimple, rightSimple);
     }
 }

@@ -70,19 +70,19 @@ public class myTests {
         System.out.println(e10.toString().equals("(x + 3.0)"));
         System.out.println();
         System.out.println("test number 11 Multiply:");
-        Expression e11 = new Mul(5, 3);
+        Expression e11 = new Mult(5, 3);
         System.out.println(e11.evaluate() == 15);
         System.out.println();
         System.out.println("test number 12 Multiply:");
         System.out.println(e11.toString().equals("(5.0 * 3.0)"));
         System.out.println();
         System.out.println("test number 13 Multiply:");
-        Expression e13 = new Mul("x", 3);
+        Expression e13 = new Mult("x", 3);
         System.out.println(e13.toString().equals("(x * 3.0)"));
 
         System.out.println();
         System.out.println("test number 14 complex Expression:");
-        Expression e14 = new Mul(new Minus(4, 2), new Plus(3, 2));
+        Expression e14 = new Mult(new Minus(4, 2), new Plus(3, 2));
         System.out.println(e14.toString());
         System.out.println(e14.evaluate());
 
@@ -170,20 +170,20 @@ public class myTests {
 
         System.out.println();
         System.out.println("test 25 complex expression");
-        Expression e25 = new Sin(new Mul(new Plus(new Num(2), new Mul(new Num(2), new Var("x"))),
+        Expression e25 = new Sin(new Mult(new Plus(new Num(2), new Mult(new Num(2), new Var("x"))),
                 new Num(5)));
         System.out.println(e25.toString());
 
         System.out.println();
         System.out.println("test 26 const");
-        Expression e26 = new Mul("e", 2);
+        Expression e26 = new Mult("e", 2);
         System.out.println(e26.toString());
         System.out.println(e26.evaluate());
 
 
         System.out.println();
         System.out.println("test 27 const");
-        Expression e27 = new Mul(4, "Pi");
+        Expression e27 = new Mult(4, "Pi");
         System.out.println(e27.toString());
         System.out.println(e27.evaluate());
 
@@ -193,6 +193,8 @@ public class myTests {
         System.out.println(e28.toString());
         Expression e29 = e28.differentiate("x");
         System.out.println(e29.toString());
+        //need to fix this
+        //System.out.println(e29.simplify().toString());
 
         System.out.println();
         System.out.println("test 29 dervative");
@@ -200,16 +202,94 @@ public class myTests {
         System.out.println(e30.toString());
         Expression e31 = e30.differentiate("x");
         System.out.println(e31.toString());
+        //System.out.println(e31.simplify().toString());
+
+
+        //unary derivative test 41
+        System.out.println();
+        System.out.println("test 41 dervative");
+        Expression e41 = new Cos("x");
+        System.out.println(e41.toString());
+        System.out.println(e41.differentiate("x").toString());
+
+
 
 
         System.out.println();
         System.out.println("simplify mul test 30");
-        Expression e32 = new Mul(1, "x");
+        Expression e32 = new Mult(1, "x");
         System.out.println(e32.toString());
 
         System.out.println(e32.simplify().toString());
-/*
-        Expression e33 = new Mul(3, 0);
+
+        System.out.println();
+        System.out.println("simplify plus test 31");
+        Expression e33 = new Plus("x", 0);
+        System.out.println(e33.toString());
+        System.out.println(e33.simplify().toString());
+
+        System.out.println();
+        System.out.println("simplify Div test 32");
+        Expression e34 = new Div("x", 1);
+        System.out.println(e34.toString());
+
+        System.out.println(e34.simplify().toString());
+
+        System.out.println();
+        Expression e35 = new Div("x", "x");
+        System.out.println(e35.toString());
+
+        System.out.println(e35.simplify().toString());
+
+        System.out.println();
+        System.out.println("simplify Min test 33");
+        Expression e36 = new Minus("x", 0);
+        System.out.println(e36.toString());
+
+        System.out.println(e36.simplify().toString());
+
+        System.out.println();
+        Expression e37 = new Minus(0, "x");
+        System.out.println(e37.toString());
+
+        System.out.println(e37.simplify().toString());
+
+
+        System.out.println();
+        System.out.println("simplify complex exp test 34");
+        Expression e38 = new Mult(new Log(new Mult(9,"x"),new Mult(9,"x")),2);
+        System.out.println(e38.toString());
+        System.out.println(e38.simplify().toString());
+
+
+        System.out.println();
+        System.out.println("diffrentiate a differenet var");
+        Expression e39 = new Var("y");
+        System.out.println(e39.differentiate("x").toString());
+
+
+        System.out.println();
+        System.out.println("diffrentiate a differenet var");
+        Expression e40 = new Pow("y",3);
+        Expression e42 = (e40.differentiate("y"));
+        System.out.println(e42.toString());
+        System.out.println(e42.simplify().toString());
+
+
+        System.out.println();
+        System.out.println("diffrentiate a differenet var");
+        Expression e43 = new Pow("e","x");
+        Expression e44 = (e43.differentiate("x"));
+        System.out.println(e44.toString());
+        System.out.println(e44.simplify().toString());
+
+
+        System.out.println();
+        Expression e45= new Sin(1);
+        System.out.println(e45.evaluate());
+
+        /*
+        Expression e33 = new Mult(3, 0);
         System.out.println(e33.toString());
         System.out.println(e33.simplify().toString());
 */

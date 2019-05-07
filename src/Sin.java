@@ -1,23 +1,52 @@
 import java.util.Map;
 
-public class Sin extends UnaryExpression implements Expression{
-
+/**
+ * Cos Operator Class.
+ *
+ * @author Tomer Yona
+ */
+public class Sin extends UnaryExpression implements Expression {
+    /**
+     * Sin constructor .
+     *
+     * @param exp .
+     */
     public Sin(Expression exp) {
         super(exp);
     }
 
+    /**
+     * Sin constructor .
+     *
+     * @param var .
+     */
     public Sin(Var var) {
         super(var);
     }
 
+    /**
+     * Sin constructor .
+     *
+     * @param num .
+     */
     public Sin(Num num) {
         super(num);
     }
 
+    /**
+     * Sin constructor .
+     *
+     * @param var .
+     */
     public Sin(String var) {
         super(var);
     }
 
+    /**
+     * Sin constructor .
+     *
+     * @param num .
+     */
     public Sin(double num) {
         super(num);
     }
@@ -30,20 +59,13 @@ public class Sin extends UnaryExpression implements Expression{
      *
      * @param assignment .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
-        Expression tempExp = this.getExpression();
+        double toCalc = getExpression().evaluate(assignment);
+        return Math.sin(toCalc);
 
-
-        if (this.getExpression() instanceof Var) {
-            tempExp = new Num(assignment.get(this.getVariables().get(0)));
-        }
-
-        UnaryExpression toCalc =  new Sin(tempExp);
-        double ans = toCalc.evaluate();
-        return ans;
     }
 
     /**
@@ -55,10 +77,11 @@ public class Sin extends UnaryExpression implements Expression{
      */
     @Override
     public double evaluate() throws Exception {
-        if (super.getExpression() instanceof Var ) {
+        if (super.getExpression() instanceof Var) {
             throw new RuntimeException("Cannot use map without Var");
         }
         double toCalc = super.getExpression().evaluate();
+
         return Math.sin(toCalc);
     }
 
@@ -73,17 +96,25 @@ public class Sin extends UnaryExpression implements Expression{
      */
     @Override
     public Expression assign(String var, Expression expression) {
-        return super.assign(var,expression);
+        return super.assign(var, expression);
     }
 
-
+    /**
+     * auxilary function for assign.
+     * @param assign .
+     * @return Expression.
+     */
     private Expression assignExpression(Expression assign) {
         return new Sin(assign);
     }
 
-        @Override
+    @Override
+    /**
+     * to String function.
+     * @return String.
+     */
     public String toString() {
-        return "sin("+super.getExpression()+")";
+        return "sin(" + super.getExpression() + ")";
     }
 
     /**
@@ -91,20 +122,32 @@ public class Sin extends UnaryExpression implements Expression{
      * the current expression relative to variable `var`.
      *
      * @param var .
-     * @return
+     * @return Expression.
      */
     @Override
     public Expression differentiate(String var) {
-        return new Mul(new Cos(this),this.differentiate(var));
+        return new Mult(new Cos(this.getExp()), this.getExpression().differentiate(var));
     }
 
     /**
      * Returned a simplified version of the current expression.
      *
-     * @return
+     * @return Expression .
      */
     @Override
     public Expression simplify() {
-        return null;
+        try {
+            if (getExpression() instanceof Num) {
+                if (0 == getExpression().evaluate()) {
+                    return new Num(0);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return new Sin(getExpression().simplify());
     }
 }

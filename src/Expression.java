@@ -18,7 +18,7 @@ public interface Expression {
      * is thrown.
      * @param assignment .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     double evaluate(Map<String, Double> assignment) throws Exception;
 
@@ -36,7 +36,7 @@ public interface Expression {
 
     /**
      * Returns a list of the variables in the expression.
-     * @return
+     * @return List .
      */
     List<String> getVariables();
 
@@ -75,7 +75,7 @@ public interface Expression {
 
     /**
      * Returned a simplified version of the current expression.
-     * @return
+     * @return Expression.
      */
     Expression simplify();
 }

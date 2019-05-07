@@ -1,12 +1,16 @@
 import java.util.List;
 import java.util.Map;
-
+/**
+ * Log Operator Class.
+ *
+ * @author Tomer Yona
+ */
 public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param leftExp
-     * @param rightExp
+     * @param leftExp .
+     * @param rightExp .
      */
     public Log(Expression leftExp, Expression rightExp) {
         super(leftExp, rightExp);
@@ -15,8 +19,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param var
-     * @param num
+     * @param var .
+     * @param num .
      */
     public Log(String var, double num) {
         super(var, num);
@@ -25,8 +29,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param num
-     * @param var
+     * @param num .
+     * @param var .
      */
     public Log(double num, String var) {
         super(num, var);
@@ -35,8 +39,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param num1
-     * @param num2
+     * @param num1 .
+     * @param num2 .
      */
     public Log(double num1, double num2) {
         super(num1, num2);
@@ -45,8 +49,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param var1
-     * @param var2
+     * @param var1 .
+     * @param var2 .
      */
     public Log(String var1, String var2) {
         super(var1, var2);
@@ -55,8 +59,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param var1
-     * @param exp2
+     * @param var1 .
+     * @param exp2 .
      */
     public Log(String var1, Expression exp2) {
         super(var1, exp2);
@@ -65,8 +69,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param exp1
-     * @param var2
+     * @param exp1 .
+     * @param var2 .
      */
     public Log(Expression exp1, String var2) {
         super(exp1, var2);
@@ -75,8 +79,8 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param num1
-     * @param exp2
+     * @param num1 .
+     * @param exp2 .
      */
     public Log(double num1, Expression exp2) {
         super(num1, exp2);
@@ -85,13 +89,17 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * constructor of BinaryExpression we also update the variable list of expression.
      *
-     * @param exp1
-     * @param num2
+     * @param exp1 .
+     * @param num2 .
      */
     public Log(Expression exp1, double num2) {
         super(exp1, num2);
     }
 
+    /**
+     * constructor of BinaryExpression we also update the variable list of expression.
+     * @param expression .
+     */
     public Log(Expression expression) {
         super(expression);
     }
@@ -104,27 +112,18 @@ public class Log extends BinaryExpression implements Expression {
      * is thrown.
      *
      * @param assignment .
-     * @return double
-     * @throws Exception
+     * @return double .
+     * @throws Exception .
      */
     @Override
     public double evaluate(Map<String, Double> assignment) throws Exception {
-        Expression tempLeftExp = this.getLeftExpression();
-        Expression tempRightExp = this.getRightExpression();
 
-
-        if (this.getLeftExpression() instanceof Var) {
-            tempLeftExp = new Num(assignment.get(this.getVariables().get(0)));
-            if (this.getRightExpression() instanceof Var) {
-                tempRightExp = new Num(assignment.get(this.getVariables().get(1)));
-            }
-        } else if (this.getRightExpression() instanceof Var) {
-            tempRightExp = new Num(assignment.get(this.getVariables().get(0)));
+        double left = getLeftExpression().evaluate(assignment);
+        double right = getRightExpression().evaluate(assignment);
+        if (right == 0) {
+            throw new RuntimeException("illegal log");
         }
-
-        BinaryExpression toCalc =  new Log(tempLeftExp, tempRightExp);
-        double ans = toCalc.evaluate();
-        return ans;
+        return Math.log(left / right);
 
     }
 
@@ -141,7 +140,7 @@ public class Log extends BinaryExpression implements Expression {
             throw new RuntimeException("Cannot use map without Var");
         }
         // need to switch here the log calculator and check if throuw exception
-        if (Math.log(super.getRightExpression().evaluate())==0){
+        if (Math.log(super.getRightExpression().evaluate()) == 0) {
             throw new RuntimeException("cannot divide by 0");
         }
         return Math.log(super.getLeftExpression().evaluate()) / Math.log(super.getRightExpression().evaluate());
@@ -151,7 +150,7 @@ public class Log extends BinaryExpression implements Expression {
     /**
      * Returns a list of the variables in the expression.
      *
-     * @return
+     * @return List .
      */
     @Override
     public List<String> getVariables() {
@@ -164,7 +163,7 @@ public class Log extends BinaryExpression implements Expression {
      * @return String
      */
     public String toString() {
-        String str = "log(" + super.getLeftExpression() + " , " + super.getRightExpression() + ")";
+        String str = "log(" + super.getLeftExpression() + ", " + super.getRightExpression() + ")";
         return str;
     }
 
@@ -190,6 +189,7 @@ public class Log extends BinaryExpression implements Expression {
 
     /**
      * setter for left expression.
+     *
      * @param leftExp .
      */
     public void setLeftExpression(Expression leftExp) {
@@ -198,6 +198,7 @@ public class Log extends BinaryExpression implements Expression {
 
     /**
      * Plus Constructor.
+     *
      * @param rightExp .
      */
     public void setRightExpression(Expression rightExp) {
@@ -213,12 +214,67 @@ public class Log extends BinaryExpression implements Expression {
      */
 
     public Expression differentiate(String var) {
-        Expression firstTerm = new Div(1,new Mul(getRightExpression(),new Log("e",getLeftExpression())));
-        Expression secondTerm =  getRightExpression().differentiate(var);
-        return new Mul(firstTerm,secondTerm);
+        Expression firstTerm = new Div(1, new Mult(getRightExpression(), new Log("e", getLeftExpression())));
+        Expression secondTerm = getRightExpression().differentiate(var);
+        return new Mult(firstTerm, secondTerm);
 
     }
 
+    @Override
+    /**
+     * Simplification of Expression.
+     * @return Expression.
+     */
+    public Expression simplify() {
 
 
+        Expression leftSimple = getLeftExpression().simplify();
+        Expression rightSimple = getRightExpression().simplify();
+
+        try {
+
+
+            if (leftSimple.toString().equals(rightSimple.toString())) {
+                return new Num(1);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+
+            if (leftSimple instanceof Var && rightSimple instanceof Num) {
+                if (leftSimple.toString().equals("e") && rightSimple.evaluate() == 2.71828) {
+                    return new Num(1);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+
+            if (rightSimple instanceof Var && leftSimple instanceof Num) {
+                if (rightSimple.toString().equals("e") && leftSimple.evaluate() == 2.71828) {
+                    return new Num(1);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+
+            if (rightSimple instanceof Num && leftSimple instanceof Num) {
+                if (rightSimple.evaluate() == leftSimple.evaluate()) {
+                    return new Num(1);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Log(leftSimple, rightSimple);
+    }
 }

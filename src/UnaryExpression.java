@@ -4,18 +4,20 @@ import java.util.Map;
 
 /**
  * UnaryExpression.
+ *
  * @author Tomer Yona
- * @date 22.4.19
+ * @since 22.4.19
  */
 public class UnaryExpression extends BaseExpression {
 
 
     private Expression expression;
-    Map<String, Double> assignment;
+    private Map<String, Double> assignment;
     private List<String> varList;
 
     /**
      * UnaryExpression constructor.
+     *
      * @param exp .
      */
     public UnaryExpression(Expression exp) {
@@ -24,6 +26,7 @@ public class UnaryExpression extends BaseExpression {
 
     /**
      * UnaryExpression constructor.
+     *
      * @param var .
      */
     public UnaryExpression(Var var) {
@@ -32,6 +35,7 @@ public class UnaryExpression extends BaseExpression {
 
     /**
      * UnaryExpression constructor.
+     *
      * @param num .
      */
     public UnaryExpression(Num num) {
@@ -40,6 +44,7 @@ public class UnaryExpression extends BaseExpression {
 
     /**
      * UnaryExpression constructor.
+     *
      * @param var .
      */
     public UnaryExpression(String var) {
@@ -48,6 +53,7 @@ public class UnaryExpression extends BaseExpression {
 
     /**
      * UnaryExpression constructor.
+     *
      * @param num .
      */
     public UnaryExpression(double num) {
@@ -56,6 +62,7 @@ public class UnaryExpression extends BaseExpression {
 
     /**
      * Getter for expression field.
+     *
      * @return Expression
      */
     public Expression getExpression() {
@@ -72,21 +79,23 @@ public class UnaryExpression extends BaseExpression {
 
     /**
      * evaluates the expression according to the map assingment.
-     * @param assignment .
+     *
+     * @param assignment1 .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
-    double evaluate(Map<String, Double> assignment) throws Exception {
+    double evaluate(Map<String, Double> assignment1) throws Exception {
 
         return 0;
     }
 
     /**
-     * evaluates an expression
+     * evaluates an expression .
+     *
      * @return double .
-     * @throws Exception
+     * @throws Exception .
      */
-    double evaluate() throws Exception{
+    double evaluate() throws Exception {
         return 0;
     }
 
@@ -94,16 +103,18 @@ public class UnaryExpression extends BaseExpression {
      * Returns a new expression in which all occurrences of the variable
      * var are replaced with the provided expression (Does not modify the
      * current expression).
-     * @param var .
-     * @param expression .
+     *
+     * @param var        .
+     * @param expression1 .
      * @return Expression .
      */
-    Expression assign(String var, Expression expression){
-        return assignExpression(getExpression().assign(var, expression));
+    Expression assign(String var, Expression expression1) {
+        return assignExpression(getExpression().assign(var, expression1));
     }
 
     /**
      * auxialry function for assign method.
+     *
      * @param assign .
      * @return Expression .
      */

@@ -33,13 +33,22 @@ public class Var implements Expression {
      * contains a variable which is not in the assignment, an exception
      * is thrown.
      *
-     * @param assignment .
+     * @param assignment1 .
      * @return double
-     * @throws Exception
+     * @throws Exception .
      */
     @Override
-    public double evaluate(Map<String, Double> assignment) throws Exception {
-        return 0;
+    public double evaluate(Map<String, Double> assignment1) throws Exception {
+        if (variable.equals("e")) {
+            return 2.71828;
+        }
+        if (variable.equals("Pi")) {
+            return 3.14;
+        }
+        if (assignment1.get(variable) == null) {
+            throw new RuntimeException("empty map");
+        }
+        return assignment1.get(variable);
     }
 
     /**
@@ -57,7 +66,7 @@ public class Var implements Expression {
     /**
      * Returns a list of the variables in the expression.
      *
-     * @return
+     * @return List .
      */
     @Override
     public List<String> getVariables() {
@@ -67,7 +76,7 @@ public class Var implements Expression {
     /**
      * Returns a nice string representation of the expression.
      *
-     * @return String
+     * @return String .
      */
     public String toString() {
         return this.variable;
@@ -84,9 +93,9 @@ public class Var implements Expression {
      */
 
     public Expression assign(String var, Expression expression) {
-        if(this.toString().equals(var)){
+        if (this.toString().equals(var)) {
             return expression;
-        }else{
+        } else {
             return this;
         }
 
@@ -97,23 +106,23 @@ public class Var implements Expression {
      * the current expression relative to variable `var`.
      *
      * @param var .
-     * @return
+     * @return Expression .
      */
     @Override
     public Expression differentiate(String var) {
-        if (this.variable.equals(var)){
+        if (this.variable.equals(var)) {
             return new Num(1);
         }
-        return this;
+        return new Num(0);
     }
 
     /**
      * Returned a simplified version of the current expression.
      *
-     * @return
+     * @return Expression .
      */
     @Override
     public Expression simplify() {
-        return null;
+        return this;
     }
 }
